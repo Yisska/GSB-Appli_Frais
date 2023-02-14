@@ -14,7 +14,7 @@
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
 
-
+//coucou
 $estVisiteurConnecte = estVisiteurConnecte();
 $estComptableConnecte = estComptableConnecte();
 
