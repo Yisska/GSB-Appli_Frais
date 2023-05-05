@@ -264,7 +264,7 @@ class PdoGsb {
         }
     }
 
-    public function majFraisHorsForfait($idVisiteur, $idFrais, $montant, $libelle, $mois) {
+    /*public function majFraisHorsForfait($idVisiteur, $idFrais, $montant, $libelle, $mois) {
 
         $requetePrepare = PdoGSB::$monPdo->prepare(
         'UPDATE lignefraishorsforfait '
@@ -281,6 +281,25 @@ class PdoGsb {
         $requetePrepare->bindParam(':unMontant', $montant, PDO::PARAM_INT);
         $requetePrepare->bindParam(':unLibelle', $libelle, PDO::PARAM_STR);
 
+        $requetePrepare->execute();
+    }*/
+    
+    public function majFraisHorsForfait(
+        $idVisiteur,$moisV,$libelle,$date, $montant
+    ) {
+        $dateHF = dateFrancaisVersAnglais($date);
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'UPDATE lignefraishorsforfait '
+                . 'SET lignefraishorsforfait.libelle = :unLibelle,lignefraishorsforfait.date = :uneDateHF,lignefraishorsforfait.montant = :unMontant '
+                . 'WHERE lignefraishorsforfait.idvisiteur = :unIdVisiteur '
+                . 'AND lignefraishorsforfait.mois = :unMois '
+                . 'AND libelle=:unLibelle '
+            );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $moisV, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unLibelle', $libelle, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':uneDateHF', $dateHF, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMontant', $montant, PDO::PARAM_INT);
         $requetePrepare->execute();
     }
 
